@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 
@@ -60,11 +62,12 @@ fun MyApplicationApp() {
             }
         }
     ) {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            Greeting(
-                name = "$currentDestination",
-                modifier = Modifier.padding(innerPadding)
-            )
+        Scaffold(modifier = Modifier.padding(PaddingValues(28.dp, 88.dp))) {
+            innerPadding ->
+                Greeting(
+                    name = "$currentDestination",
+                    modifier = Modifier.padding(innerPadding)
+                )
         }
     }
 }
