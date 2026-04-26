@@ -1,6 +1,7 @@
 package com.example.myapplication.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,8 +14,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -31,6 +39,7 @@ import com.example.myapplication.model.ChatState
 import com.example.myapplication.model.Message
 import com.example.myapplication.ui.presentation.ChatViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(viewModel: ChatViewModel) {
     val state by viewModel.state.collectAsState()
@@ -39,11 +48,29 @@ fun ChatScreen(viewModel: ChatViewModel) {
         viewModel.processIntent(ChatIntent.LoadData)
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        MessageList(state = state)
-        MessageInput(onSend = { text ->
-            viewModel.processIntent(ChatIntent.SendMessage(text))
-        })
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text("Top app bar")
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            MessageList(state = state)
+            MessageInput(onSend = { text ->
+                viewModel.processIntent(ChatIntent.SendMessage(text))
+            })
+        }
     }
 }
 
@@ -55,6 +82,7 @@ fun MessageList(state: ChatState) {
                 CircularProgressIndicator()
             }
         }
+
         is ChatState.Success -> {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(state.messages) { message ->
@@ -62,6 +90,7 @@ fun MessageList(state: ChatState) {
                 }
             }
         }
+
         is ChatState.Error -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(text = state.message)
