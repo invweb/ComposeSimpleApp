@@ -33,7 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.model.ChatState
 import com.example.myapplication.model.Message
-import com.example.myapplication.ui.ChatViewModel
+import com.example.myapplication.ChatViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
