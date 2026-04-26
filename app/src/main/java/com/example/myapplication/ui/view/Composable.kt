@@ -1,15 +1,20 @@
 package com.example.myapplication.ui.view
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -80,9 +85,35 @@ fun MessageList(state: ChatState) {
         }
 
         is ChatState.Success -> {
-            LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(state.messages) { message ->
-                    MessageItem(message = message)
+            val listState = rememberLazyListState()
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    // Указываем, что видимая область не должна превышать, например, 250dp
+                    .height(250.dp)
+                    .background(Color.LightGray.copy(alpha = 0.2f)) // Визуально видно ограничение
+            ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    items(state.messages) { message ->
+                        MessageItem(message = message)
+                    }
+                    items(state.messages) { message ->
+                        MessagesCardItem(message = message) // Передаем данные в функцию отображения карточки
+                        LaunchedEffect(Unit) {
+                            if (state.messages.isNotEmpty()) {
+
+                                val lastIndex = state.messages.size - 1
+                                listState.animateScrollToItem(
+                                    index = lastIndex,
+                                )
+                                Log.d("log", "$lastIndex")
+                            }
+                        }
+                    }
+
                 }
             }
         }
@@ -94,6 +125,14 @@ fun MessageList(state: ChatState) {
         }
     }
 }
+
+@Composable
+fun MessagesCardItem(message: Message) {
+    message.text
+    message.isSentByMe
+    message.id
+}
+
 
 @Composable
 fun MessageItem(message: Message) {
@@ -120,20 +159,27 @@ fun MessageItem(message: Message) {
 fun MessageInput(onSend: (String) -> Unit) {
     var text by remember { mutableStateOf("") }
 
-    Row(modifier = Modifier.fillMaxWidth()) {
-        TextField(
-            value = text,
-            onValueChange = { text = it },
-            modifier = Modifier.weight(1f),
-            placeholder = { Text("Введите сообщение") }
-        )
-        Button(onClick = {
-            if (text.isNotBlank()) {
-                onSend(text)
-                text = ""
+    Column(
+        modifier = Modifier
+            .fillMaxSize() // <-- Ключевой момент! Занять всю площадь.
+            .background(Color.LightGray)
+            .padding(16.dp)
+    ) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            TextField(
+                value = text,
+                onValueChange = { text = it },
+                modifier = Modifier.weight(1f),
+                placeholder = { Text("Введите сообщение") }
+            )
+            Button(onClick = {
+                if (text.isNotBlank()) {
+                    onSend(text)
+                    text = ""
+                }
+            }) {
+                Text("Отправить")
             }
-        }) {
-            Text("Отправить")
         }
     }
 }
