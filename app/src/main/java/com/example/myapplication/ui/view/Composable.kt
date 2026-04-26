@@ -80,7 +80,7 @@ fun MessageList(state: ChatState) {
         }
 
         is ChatState.Success -> {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(state.messages) { message ->
                     MessageItem(message = message)
                 }
