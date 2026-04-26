@@ -41,12 +41,12 @@ class ChatViewModel : ViewModel() {
         viewModelScope.launch {
             _state.value = try {
                 val data = listOf(
-                    Message(id = 1, text = "Привет!", isSentByMe = false),
-                    Message(id = 2, text = "Как дела?", isSentByMe = true)
+                    Message(id = 1, text = "Hi!", isSentByMe = false),
+                    Message(id = 2, text = "How are you?", isSentByMe = true)
                 )
                 ChatState.Success(data)
             } catch (e: Exception) {
-                ChatState.Error("Не удалось загрузить сообщения")
+                ChatState.Error("Failed to upload messages")
             }
         }
     }
