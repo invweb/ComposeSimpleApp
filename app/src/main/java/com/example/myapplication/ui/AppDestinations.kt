@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.presentation
+package com.example.myapplication.ui
 
 import com.example.myapplication.R
 

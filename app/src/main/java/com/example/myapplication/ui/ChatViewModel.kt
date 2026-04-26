@@ -1,10 +1,10 @@
-package com.example.myapplication.ui.presentation
+package com.example.myapplication.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.ChatIntent
 import com.example.myapplication.model.ChatState
 import com.example.myapplication.model.Message
+import com.example.myapplication.ui.view.ChatIntent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

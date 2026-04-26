@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.presentation
+package com.example.myapplication.ui.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,9 +31,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.ChatIntent
 import com.example.myapplication.model.ChatState
 import com.example.myapplication.model.Message
+import com.example.myapplication.ui.ChatViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
