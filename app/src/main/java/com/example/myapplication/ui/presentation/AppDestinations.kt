@@ -1,4 +1,6 @@
-package com.example.myapplication
+package com.example.myapplication.ui.presentation
+
+import com.example.myapplication.R
 
 enum class AppDestinations(val label: Int, val icon: Int, val contentDescription: Int) {
     HOME(R.string.home, R.drawable.ic_home, R.string.home),
