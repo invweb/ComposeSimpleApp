@@ -42,7 +42,9 @@ class ChatViewModel : ViewModel() {
             _state.value = try {
                 val data = listOf(
                     Message(id = 1, text = "Hi!", isSentByMe = false),
-                    Message(id = 2, text = "How are you?", isSentByMe = true)
+                    Message(id = 1, text = "How are you?", isSentByMe = false),
+                    Message(id = 2, text = "Hi!", isSentByMe = true),
+                    Message(id = 2, text = "I am OK ))", isSentByMe = true)
                 )
                 ChatState.Success(data)
             } catch (e: Exception) {
