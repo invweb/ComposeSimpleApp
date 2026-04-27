@@ -5,13 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -67,16 +66,13 @@ fun ChatScreen(viewModel: ChatViewModel) {
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            MessageList(state = state)
-            MessageInput(onSend = { text ->
-                viewModel.processIntent(ChatIntent.SendMessage(text))
-            })
+            MessageList(viewModel = viewModel, state = state)
         }
     }
 }
 
 @Composable
-fun MessageList(state: ChatState) {
+fun MessageList(state: ChatState, viewModel: ChatViewModel) {
     when (state) {
         ChatState.Loading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -86,35 +82,48 @@ fun MessageList(state: ChatState) {
 
         is ChatState.Success -> {
             val listState = rememberLazyListState()
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    // Указываем, что видимая область не должна превышать, например, 250dp
-                    .height(250.dp)
-                    .background(Color.LightGray.copy(alpha = 0.2f)) // Визуально видно ограничение
-            ) {
-                LazyColumn(
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Box(
                     modifier = Modifier
+                        .weight(8f) // <-- The key point: we set the weight of 8 parts
                         .fillMaxWidth()
+                        .background(Color(0xFFADD8E6)) // Light blue background
                 ) {
-                    items(state.messages) { message ->
-                        MessageItem(message = message)
-                    }
-                    items(state.messages) { message ->
-                        MessagesCardItem(message = message) // Передаем данные в функцию отображения карточки
-                        LaunchedEffect(Unit) {
-                            if (state.messages.isNotEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        items(state.messages) { message ->
+                            MessageItem(message = message)
+                        }
+                        items(state.messages) { message ->
+                            MessagesCardItem(message = message) // Passing the data to the card display function
+                            LaunchedEffect(Unit) {
+                                if (state.messages.isNotEmpty()) {
 
-                                val lastIndex = state.messages.size - 1
-                                listState.animateScrollToItem(
-                                    index = lastIndex,
-                                )
-                                Log.d("log", "$lastIndex")
+                                    val lastIndex = state.messages.size - 1
+                                    listState.animateScrollToItem(
+                                        index = lastIndex,
+                                    )
+                                    Log.d("log", "$lastIndex")
+                                }
                             }
                         }
-                    }
 
+                    }
                 }
+
+                Box(
+                    modifier = Modifier
+                        .weight(2f)
+                        .fillMaxWidth()
+                        .background(Color(0xFF90EE90)) // Light green background
+                ) {
+                    MessageInput(onSend = { text ->
+                        viewModel.processIntent(ChatIntent.SendMessage(text))
+                    })
+                }
+
             }
         }
 
@@ -161,7 +170,7 @@ fun MessageInput(onSend: (String) -> Unit) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize() // <-- Ключевой момент! Занять всю площадь.
+            .fillMaxSize()
             .background(Color.LightGray)
             .padding(16.dp)
     ) {
@@ -169,8 +178,9 @@ fun MessageInput(onSend: (String) -> Unit) {
             TextField(
                 value = text,
                 onValueChange = { text = it },
-                modifier = Modifier.weight(1f),
-                placeholder = { Text("Введите сообщение") }
+                modifier = Modifier
+                    .weight(1f),
+                placeholder = { Text("Enter a message") }
             )
             Button(onClick = {
                 if (text.isNotBlank()) {
@@ -178,7 +188,7 @@ fun MessageInput(onSend: (String) -> Unit) {
                     text = ""
                 }
             }) {
-                Text("Отправить")
+                Text("Send")
             }
         }
     }
