@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ChatViewModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
@@ -12,8 +15,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApplicationTheme {
+                val navController = rememberNavController()
                 val viewModel: ChatViewModel by viewModels<ChatViewModel>()
-                ChatScreen(viewModel = viewModel)
+
+                NavHost(
+                    startDestination = "ChatScreen",
+                    navController = navController
+                ) {
+                    composable("ChatScreen") {
+                        ChatScreen(viewModel = viewModel)
+                    }
+                }
             }
         }
     }
