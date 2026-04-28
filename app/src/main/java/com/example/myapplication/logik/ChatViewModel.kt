@@ -1,10 +1,9 @@
-package com.example.myapplication
+package com.example.myapplication.logik
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.model.ChatState
 import com.example.myapplication.model.Message
-import com.example.myapplication.ui.view.ChatIntent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -48,7 +47,7 @@ class ChatViewModel : ViewModel() {
                 )
                 ChatState.Success(data)
             } catch (e: Exception) {
-                ChatState.Error("Failed to upload messages")
+                ChatState.Error("Failed to upload messages: $e")
             }
         }
     }
