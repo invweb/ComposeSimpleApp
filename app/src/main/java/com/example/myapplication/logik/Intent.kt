@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.view
+package com.example.myapplication.logik
 
 sealed class ChatIntent {
     object LoadData : ChatIntent()
