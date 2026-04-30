@@ -2,6 +2,8 @@ The simplest application is planned, the Basic one. An attempt to adequately imp
 
 EN:
 
+The simplest application is planned, the Basic one. An attempt to adequately implement MVI. Used Kotlin Compose. Navigation added.
+
 Key properties of StateFlow
 It always has the current value. Unlike regular Flow, StateFlow always has the "last known value", which the new subscriber receives immediately upon subscription.
 Hot flows. StateFlow exists independently of subscribers (collectors). The data continues to be updated, even if no one is listening.
@@ -9,6 +11,8 @@ The issue is only when it is changed. The new value is sent to subscribers only 
 Guarantees consistency. Updates come in the order in which they were installed.
 
 RUS:
+
+Планируется самое простое приложение, базовое. Попытка адекватно реализовать MVI. Используется Kotlin Compose. Добавлена навигация.
 
 Ключевые свойства StateFlow
 Всегда имеет текущее значение. В отличие от обычного Flow, у StateFlow всегда есть «последнее известное значение», которое новый подписчик получает сразу при подписке.
