@@ -2,6 +2,8 @@ EN:
 
 The simplest application is planned, the Basic one. An attempt to adequately implement MVI. Used Kotlin Compose. Navigation added.
 
+The MVI architectural pattern is used, and it is correct to call it Model‑View‑Intent.
+
 Key properties of StateFlow
 It always has the current value. Unlike regular Flow, StateFlow always has the "last known value", which the new subscriber receives immediately upon subscription.
 
@@ -14,6 +16,8 @@ Guarantees consistency. Updates come in the order in which they were installed.
 RUS:
 
 Планируется самое простое приложение, базовое. Попытка адекватно реализовать MVI. Используется Kotlin Compose. Добавлена навигация.
+
+Используется рхитектурный паттерн MVI правильно называть Model‑View‑Intent.
 
 Ключевые свойства StateFlow
 Всегда имеет текущее значение. В отличие от обычного Flow, у StateFlow всегда есть «последнее известное значение», которое новый подписчик получает сразу при подписке.
