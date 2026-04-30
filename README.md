@@ -4,7 +4,9 @@ The simplest application is planned, the Basic one. An attempt to adequately imp
 
 Key properties of StateFlow
 It always has the current value. Unlike regular Flow, StateFlow always has the "last known value", which the new subscriber receives immediately upon subscription.
+
 Hot flows. StateFlow exists independently of subscribers (collectors). The data continues to be updated, even if no one is listening.
+
 The issue is only when it is changed. The new value is sent to subscribers only if it differs from the previous one (comparison via equals).
 Guarantees consistency. Updates come in the order in which they were installed.
 
